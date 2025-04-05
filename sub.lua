@@ -1,5 +1,4 @@
 local k = love.keyboard
-local m = love.mouse
 
 Sub = Class('Sub')
 
@@ -15,35 +14,46 @@ function Sub:initialize(x, y)
 
     self.speed = 40
     self.boost = 100
-    self.boost_energy = 200
+    self.boost_energy = 30
 
+    self.light = Luven.addNormalLight(self.x + 30, self.y, { 0.9, 1, 0 }, 1, Luven.lightShapes.cone, 0)
 end
 function Sub:update(dt)
-    if k.isDown("w") then
+    local camx, camy = cam:toScreen(self.x, self.y)
+    if k.isDown("w") and self.y > 0 then
         self.y = self.y - dt * self.speed
         if self.direction == 2 then
             self.angle = Smoothangle(dt, -1.5, self.angle, 1)
+            Luven.setLightPosition(self.light, camx + 15, camy - 10)
         elseif self.direction == -2 then
             self.angle = Smoothangle(dt, 1.5, self.angle, 1)
+            Luven.setLightPosition(self.light, camx - 32, camy)
         end
-    elseif k.isDown("s") then
+    elseif k.isDown("s") and self.y < WORLD_HEIGHT then
         self.y = self.y + dt * self.speed
         if self.direction == 2 then
             self.angle = Smoothangle(dt, 1.5, self.angle, 1)
+            Luven.setLightPosition(self.light, camx + 30, camy)
         elseif self.direction == -2 then
             self.angle = Smoothangle(dt, -1.5, self.angle, 1)
+            Luven.setLightPosition(self.light, camx - 32, camy)
         end
+    else
+        self.angle = Smoothangle(dt, 0, self.angle, 1)
     end
 
-    if k.isDown("d") then
+    if k.isDown("d") and self.x < WORLD_WIDTH then
         self.x = self.x + dt * self.speed
         self.angle = Smoothangle(dt, 0, self.angle, 5)
         self.direction = 2
-    elseif k.isDown("a") then
+        Luven.setLightPosition(self.light, camx + 30, camy)
+        Luven.setLightScale(self.light, 1, 1)
+    elseif k.isDown("a") and self.x > 0 then
         self.x = self.x - dt * self.speed
         self.angle = Smoothangle(dt, 0, self.angle, 5)
         self.direction = -2
-
+        Luven.setLightPosition(self.light, camx - 32, camy)
+        Luven.setLightScale(self.light, -1, 1)
     end
 
     if (k.isDown("space") and self.boost_energy > 0) then
@@ -54,9 +64,16 @@ function Sub:update(dt)
         self.speed = 40
     end
 
+    Luven.setLightRotation(self.light, self.angle)
+    cam:setPosition(self.x, self.y)
 end
 function Sub:draw()
     love.graphics.draw(self.idleimg, self.x, self.y, self.angle, self.direction, 2, self.width / 2,  self.height / 2)
+
+    love.graphics.setColor(1, 0.5, 0, 0.8)
+    love.graphics.setLineWidth(5)
+    love.graphics.arc("line", "open", self.x, self.y, 45, 0, self.boost_energy/100 * 2 * math.pi)
+    love.graphics.setColor(1, 1, 1)
 end
 
 function Smoothangle(dt, goal, current, speed)
