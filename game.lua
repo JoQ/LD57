@@ -47,7 +47,6 @@ function Game:update(dt)
         Luven.setAmbientLightColor({ 0.1, 0.1, 0.1 })
     end
 
-    Logger.info(sub.y)
     --Luven.setLightPosition(sub.light, sub.x, sub.y)
 
 end
@@ -70,8 +69,8 @@ function Game:draw()
     end
     Luven.drawBegin()
     cam:draw(drawCameraStuff)
-
     Luven.drawEnd()
 
+    love.graphics.print("Seaweed: " .. tostring(sub.inventorysweed), 10, 30)
     --love.graphics.rectangle("fill",10,30,sub.boost_energy,15)
 end
