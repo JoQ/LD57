@@ -15,6 +15,7 @@ function Sub:initialize(x, y)
     self.speed = 40
     self.boost = 100
     self.boost_energy = 40
+    self.light_energy = 1
 
     self.inventorysweed = 0
 
@@ -66,6 +67,7 @@ function Sub:update(dt)
     end
 
     Luven.setLightRotation(self.light, self.angle)
+    Luven.setLightPower(self.light, self.light_energy)
     cam:setPosition(self.x, self.y)
 end
 function Sub:draw()
@@ -75,6 +77,7 @@ function Sub:draw()
     love.graphics.setLineWidth(5)
     love.graphics.arc("line", "open", self.x, self.y, 45, 0, self.boost_energy/100 * 2 * math.pi)
     love.graphics.setColor(1, 1, 1)
+    love.graphics.arc("line", "open", self.x, self.y, 50, 0, self.light * math.pi)
 end
 
 function Smoothangle(dt, goal, current, speed)

@@ -2,6 +2,7 @@ Class = require 'libs/middleclass'
 require 'settings'
 require 'sub'
 require 'entities.seaweed'
+require 'entities.mine'
 
 local gamera = require 'libs/gamera'
 Luven = require 'libs/luven/luven'
@@ -28,9 +29,13 @@ function Game:initialize()
     sub = Sub:new(200, 200)
 
     seaweed = Seaweed:new()
+    mine = Mine:new()
 
-    for i = 1, 100 do
-        seaweed:spawn(math.random(20, 1980), math.random(10, 300))
+    for i = 1, 150 do
+        seaweed:spawn(math.random(20, 1980), math.random(10, 350))
+    end
+    for i = 1, 20 do
+        mine:spawn(math.random(20, 1980), math.random(10, 1350))
     end
 
 end
@@ -38,6 +43,7 @@ end
 function Game:update(dt)
     Luven.update(dt)
     sub:update(dt)
+    mine:update(dt)
 
     if sub.y < 650 then
         Luven.setAmbientLightColor({ 0.5, 0.5, 0.5 })
@@ -63,7 +69,7 @@ function Game:draw()
 
       love.graphics.draw(bg, 0, 0)
       seaweed:draw()
-
+      mine:draw()
       sub:draw()
 
     end
