@@ -77,7 +77,7 @@ function Sub:draw()
     love.graphics.setLineWidth(5)
     love.graphics.arc("line", "open", self.x, self.y, 45, 0, self.boost_energy/100 * 2 * math.pi)
     love.graphics.setColor(1, 1, 1)
-    love.graphics.arc("line", "open", self.x, self.y, 50, 0, self.light * math.pi)
+    --love.graphics.arc("line", "open", self.x, self.y, 50, 0, self.light * math.pi)
 end
 
 function Smoothangle(dt, goal, current, speed)

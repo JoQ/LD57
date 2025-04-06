@@ -22,7 +22,7 @@ function Mine:spawn(x, y)
     mine.speed = math.random(2, 5)
     mine.size = math.random(10, 18)*.1
     mine.state = 0 --0 default, 1 active, other value then booom
-    mine.dtime = 5
+    mine.dtime = 3
     mine.etime = 3
     table.insert(Mines, mine)
 end
