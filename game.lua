@@ -34,8 +34,8 @@ function Game:initialize()
     for i = 1, 150 do
         seaweed:spawn(math.random(20, 1980), math.random(10, 350))
     end
-    for i = 1, 20 do
-        mine:spawn(math.random(20, 1980), math.random(10, 1350))
+    for i = 1, 50 do
+        mine:spawn(math.random(20, 1980), math.random(900, 1350))
     end
 
 end

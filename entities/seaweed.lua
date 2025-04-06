@@ -22,7 +22,6 @@ function Seaweed:draw()
 end
 function Seaweed:collect(x, y)
     for i,v in ipairs(Seaweeds) do
-        Logger.info(v.x - x)
         if math.sqrt((x - v.x) ^ 2 + (y - v.y) ^ 2) < 60 then
             --Add resturs till inventory?!
             sub:inventory("add", "seaweed", 1)

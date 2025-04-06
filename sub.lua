@@ -15,7 +15,7 @@ function Sub:initialize(x, y)
     self.speed = 40
     self.boost = 100
     self.boost_energy = 40
-    self.light_energy = 1
+    self.light_energy = 0.8
 
     self.inventorysweed = 0
 
