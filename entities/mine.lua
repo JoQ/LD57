@@ -23,7 +23,7 @@ function Mine:spawn(x, y)
     mine.size = math.random(10, 18)*.1
     mine.state = 0 --0 default, 1 active, other value then booom
     mine.dtime = 5
-
+    mine.etime = 3
     table.insert(Mines, mine)
 end
 
@@ -37,7 +37,6 @@ function Mine:update(dt)
         if v.state == 1 and v.dtime > 0 then
             --count down
             v.dtime = v.dtime - dt * 1
-            Logger.info(v.dtime)
         end
         if v.dtime < 0 and v.state == 1 then
             --booom
@@ -46,6 +45,12 @@ function Mine:update(dt)
             v.state = 2
         elseif v.state == 2 then
             Luven.setLightPosition(v.light, bombx, bomby)
+            if v.etime > 0 then
+                v.etime = v.etime - dt * 1
+            else
+                Luven.removeLight(v.light)
+                table.remove(Mines, i)
+            end
         end
         --Move it up
         if v.maxy <= v.y and v.down == false then
@@ -67,7 +72,7 @@ function Mine:draw()
     for i,v in ipairs(Mines) do
         if v.state == 0 then
             love.graphics.draw(self.idleimg, v.x, v.y, 1, v.size, v.size)
-        else
+        elseif v.state == 1 then
             self.activationanimation:draw(self.activeimg, v.x, v.y, 1, v.size, v.size)
 
 
